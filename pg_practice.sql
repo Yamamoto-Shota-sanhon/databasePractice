@@ -1,15 +1,12 @@
 -- 問題1. postgresqlでpracticeデータベースを生成するSQL文を記述してください。
-docker compose exec postgresql bash
-psql -U postgres
-postgres
 CREATE DATABASE practice;
-\c practice
 -- 問題2. postgresqlでpracticeデータベースのusersテーブルを生成するSQL文を記述してください。
+CREATE TYPE gender AS ENUM ('Man', 'Woman', 'Other');
 CREATE TABLE users(
 id SERIAL NOT NULL,
 name char(255) NOT NULL DEFAULT '',
 age int NOT NULL DEFAULT 0,
-gender char(20) NOT NULL DEFAULT 'Other' CHECK (gender IN ('Man', 'Woman', 'Other')),
+gender gender NOT NULL DEFAULT 'Other',
 PRIMARY KEY (id)
 );
 COMMENT ON COLUMN users.name IS '氏名';
