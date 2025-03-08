@@ -85,7 +85,7 @@ WHERE indep_year <1990 AND code IN ('DZA');
 
 -- 問14
 -- 全ての地方をグループ化せずに表示してください。
-SELECT region
+SELECT DISTINCT region
 FROM countries;
 
 
@@ -177,8 +177,16 @@ LEFT JOIN countries co ON co.code = ce.country_code;
 -- 全ての有名人の名前,国名、第一言語を出力してください。
 SELECT ce.name AS celeb_name,co.name AS country,cl.language AS language
 FROM celebrities ce
-JOIN countries co ON co.code = ce.country_code
-JOIN country_languages cl ON ce.country_code = cl.country_code;
+JOIN countries co
+ON co.code = ce.country_code
+JOIN country_languages cl
+ON ce.country_code = cl.country_code
+WHERE (cl.country_code, cl.percentage)
+IN (
+    SELECT country_code, MAX(percentage)
+    FROM country_languages
+    GROUP BY country_code
+);
 
 
 -- 問29
